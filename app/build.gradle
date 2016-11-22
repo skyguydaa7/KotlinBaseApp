@@ -1,0 +1,83 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.0"
+    defaultConfig {
+        applicationId "com.lbbento.kotlinbaseapp.kotlinbaseapp"
+        minSdkVersion 16
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+}
+
+ext {
+    tests_espresso_version = '2.2.2'
+    tests_junit_version = '4.12'
+
+    support_library_version = '25.0.1'
+    constraint_layout_version = '1.0.0-alpha3'
+
+    butter_knife_version = '8.4.0'
+
+    dagger_version = '2.7'
+
+    annotations_version = '1.0'
+
+    rx_kotlin = '0.21.0'
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    //tests
+    androidTestCompile("com.android.support.test.espresso:espresso-core:$tests_espresso_version", {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    testCompile "junit:junit:$tests_junit_version"
+
+    //kotlin
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+    //Support Libraries
+    compile "com.android.support.constraint:constraint-layout:$constraint_layout_version"
+    compile "com.android.support:appcompat-v7:$support_library_version"
+    compile "com.android.support:design:$support_library_version"
+    compile "com.android.support:recyclerview-v7:$support_library_version"
+    compile "com.android.support:cardview-v7:$support_library_version"
+
+    //Butterknife
+    compile "com.jakewharton:butterknife:$butter_knife_version"
+    kapt "com.jakewharton:butterknife-compiler:$butter_knife_version"
+
+    //Dagger
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
+    compile "com.google.dagger:dagger:$dagger_version"
+
+    //Android annotations
+    provided "javax.annotation:jsr250-api:$annotations_version"
+
+    //RxKotlin
+    compile group: 'io.reactivex', name: 'rxkotlin', version: rx_kotlin
+}
+repositories {
+    mavenCentral()
+}
+
+kapt {
+    generateStubs = true
+}
